@@ -1,0 +1,597 @@
+<title>Recta Final DEP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --paper:#EEEAE0;
+  --paper-raised:#F7F4EC;
+  --ink:#211E1A;
+  --ink-soft:#4A4438;
+  --muted:#7A7263;
+  --line:rgba(33,30,26,0.14);
+  --line-strong:rgba(33,30,26,0.28);
+  --accent:#9A2B25;
+  --accent-soft:#F1DCD9;
+  --gold:#9C7A2E;
+  --gold-soft:#EDE1C2;
+  --sage:#4C6152;
+  --sage-soft:#DCE5DA;
+  --blue:#385A73;
+  --blue-soft:#DCE6ED;
+  --code-bg:#E4DFD1;
+  --shadow: 0 1px 2px rgba(33,30,26,0.06), 0 8px 24px rgba(33,30,26,0.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#18160F; --paper-raised:#211E17; --ink:#EFE9DA; --ink-soft:#C9C0AC; --muted:#948A76;
+    --line:rgba(239,233,218,0.14); --line-strong:rgba(239,233,218,0.26);
+    --accent:#E2837A; --accent-soft:#3A211E; --gold:#D6B15C; --gold-soft:#3A3117;
+    --sage:#8FB097; --sage-soft:#20291F; --blue:#8FB4D1; --blue-soft:#1B2A33;
+    --code-bg:#26221A; --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#18160F; --paper-raised:#211E17; --ink:#EFE9DA; --ink-soft:#C9C0AC; --muted:#948A76;
+  --line:rgba(239,233,218,0.14); --line-strong:rgba(239,233,218,0.26);
+  --accent:#E2837A; --accent-soft:#3A211E; --gold:#D6B15C; --gold-soft:#3A3117;
+  --sage:#8FB097; --sage-soft:#20291F; --blue:#8FB4D1; --blue-soft:#1B2A33;
+  --code-bg:#26221A; --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Source Serif 4', ui-serif, Georgia, serif;
+  font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+@media (prefers-reduced-motion: reduce){ *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;} }
+a{color:var(--accent);}
+a:focus-visible, button:focus-visible, summary:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:2px; }
+
+.wrap{max-width:860px; margin:0 auto; padding:0 24px 96px;}
+
+header.hero{ padding:52px 0 26px; border-bottom:1px solid var(--line-strong); }
+.eyebrow{
+  font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:12.5px; letter-spacing:0.14em;
+  text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:10px; margin-bottom:14px;
+}
+.eyebrow::before{ content:""; width:22px; height:1px; background:var(--accent); display:inline-block; }
+h1.title{
+  font-family:'Fraunces', Georgia, serif; font-weight:700; font-size:clamp(2.1rem, 5vw, 3.1rem);
+  line-height:1.05; margin:0 0 14px; text-wrap:balance; letter-spacing:-0.01em;
+}
+.subtitle{ color:var(--ink-soft); font-size:1.08rem; max-width:58ch; margin:0 0 22px; }
+
+.correction{
+  background:var(--accent-soft); border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius:12px; padding:14px 18px; margin-bottom:22px; font-size:0.92rem; color:var(--ink-soft);
+}
+.correction strong{ color:var(--accent); }
+
+.timeline{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-bottom:8px; }
+.day-card{
+  background:var(--paper-raised); border:1px solid var(--line-strong); border-radius:12px; padding:14px 16px;
+}
+.day-card .d{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+.day-card h4{ font-family:'Fraunces',Georgia,serif; font-size:1.05rem; margin:4px 0 6px; }
+.day-card p{ margin:0; font-size:0.86rem; color:var(--ink-soft); }
+
+nav.toc{
+  position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter:blur(6px); border-bottom:1px solid var(--line); padding:12px 0; margin-bottom:8px;
+}
+nav.toc .wrap{ padding-top:0; padding-bottom:0; display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; }
+nav.toc .wrap::-webkit-scrollbar{display:none;}
+nav.toc a{
+  font-family:'IBM Plex Mono',monospace; font-size:12.5px; text-decoration:none; color:var(--ink-soft);
+  white-space:nowrap; padding:7px 12px; border-radius:7px;
+}
+nav.toc a:hover{ background:var(--paper-raised); color:var(--ink); }
+
+section.block{ padding:48px 0 8px; }
+.section-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:6px; }
+.section-num{ font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--muted); min-width:2.4em; }
+h2{ font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:1.75rem; margin:0; text-wrap:balance; }
+
+.day-banner{
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  background:var(--blue-soft); border:1px solid color-mix(in srgb, var(--blue) 35%, transparent);
+  border-radius:14px; padding:18px 22px; margin:44px 0 6px;
+}
+.day-banner h2{ color:var(--blue); font-size:1.5rem; }
+.day-banner p{ margin:4px 0 0; color:var(--ink-soft); font-size:0.95rem; max-width:56ch; }
+
+h3{ font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:1.22rem; margin:34px 0 10px; text-wrap:balance; color:var(--ink); }
+h3 .num{ color:var(--gold); font-family:'IBM Plex Mono',monospace; font-size:0.85em; margin-right:8px; }
+p{ margin:0 0 14px; max-width:70ch; }
+ul, ol{ margin:0 0 16px; padding-left:1.25em; max-width:68ch; }
+li{ margin-bottom:6px; }
+li::marker{ color:var(--gold); }
+strong{ color:var(--ink); font-weight:600; }
+
+.defbox{
+  background:var(--paper-raised); border-left:3px solid var(--accent); border-radius:0 10px 10px 0;
+  padding:16px 20px; margin:16px 0 22px; box-shadow:var(--shadow);
+}
+.defbox .label{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:6px; }
+.defbox p{ margin:0; font-style:italic; color:var(--ink-soft); }
+
+.examtip{
+  background:var(--gold-soft); border-radius:10px; padding:14px 18px; margin:18px 0;
+  font-size:0.94rem; color:var(--ink-soft); display:flex; gap:10px;
+}
+.examtip::before{ content:"◆"; color:var(--gold); flex-shrink:0; }
+.examtip strong{ color:var(--ink); }
+
+.table-wrap{ overflow-x:auto; margin:18px 0 24px; border-radius:10px; border:1px solid var(--line-strong); }
+table{ border-collapse:collapse; width:100%; min-width:460px; font-size:0.9rem; }
+th, td{ padding:8px 13px; text-align:left; border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums; }
+th{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); background:var(--paper-raised); font-weight:600; }
+tr:last-child td{ border-bottom:none; }
+td.num{ text-align:right; font-family:'IBM Plex Mono',monospace; }
+tr.total td{ font-weight:600; background:var(--paper-raised); }
+
+.grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:12px; margin:18px 0 22px; }
+.card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
+.card h4{ font-family:'Fraunces',Georgia,serif; font-size:1.02rem; font-weight:600; margin:0 0 6px; color:var(--sage); }
+.card p{ margin:0; font-size:0.9rem; color:var(--ink-soft); }
+
+.formula{
+  font-family:'IBM Plex Mono',monospace; background:var(--code-bg); border-radius:8px; padding:14px 18px;
+  margin:14px 0 20px; font-size:0.94rem; overflow-x:auto; color:var(--ink);
+}
+.flow{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:16px 0 22px; }
+.flow .step{ background:var(--paper-raised); border:1px solid var(--line-strong); border-radius:8px; padding:9px 14px; font-size:0.88rem; font-family:'IBM Plex Mono',monospace; }
+.flow .arrow{ color:var(--gold); font-size:1.1rem; }
+
+details.card-q{
+  background:var(--paper-raised); border:1px solid var(--line); border-radius:10px; padding:14px 18px; margin-bottom:10px;
+}
+details.card-q summary{
+  cursor:pointer; font-weight:600; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:0.98rem;
+}
+details.card-q summary::-webkit-details-marker{ display:none; }
+details.card-q summary::after{ content:"+"; font-family:'IBM Plex Mono',monospace; color:var(--gold); font-size:1.2rem; flex-shrink:0; transition:transform .15s ease; }
+details.card-q[open] summary::after{ transform:rotate(45deg); }
+details.card-q .answer{ margin-top:10px; padding-top:10px; border-top:1px solid var(--line); color:var(--ink-soft); font-size:0.94rem; }
+.tag-day{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; padding:2px 8px; border-radius:100px; background:var(--sage-soft); color:var(--sage); flex-shrink:0; }
+.tag-day.d2{ background:var(--gold-soft); color:var(--gold); }
+.tag-day.d3{ background:var(--blue-soft); color:var(--blue); }
+
+footer{ margin-top:64px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:0.85rem; font-family:'IBM Plex Mono',monospace; }
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Diseño y Evaluación de Proyectos · Sprint pre-examen</div>
+    <h1 class="title">Recta final: Semanas 1 a 4</h1>
+    <p class="subtitle">Tu clase ha llegado hasta la Semana 4 — el examen no cubre WACC ni riesgo, sino Demanda/Oferta, Estudio de Mercado, Tamaño y Localización. Guía reconstruida con el contenido y los ejercicios reales de tus Excel de clase.</p>
+    <div class="timeline">
+      <div class="day-card"><span class="d">Semana 2</span><h4>Demanda y oferta</h4><p>Elasticidad, ecuación de utilidad, proyección de demanda (regresión y promedio móvil).</p></div>
+      <div class="day-card"><span class="d">Semana 3</span><h4>Estudio de mercado</h4><p>Estructura del análisis, segmentación, la cascada Mp→Md→Me→Mo.</p></div>
+      <div class="day-card"><span class="d">Semana 4</span><h4>Tamaño y localización</h4><p>Economías de escala, 5 métodos de localización, punto de equilibrio, mermas.</p></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#s2-elasticidad">Elasticidad/Utilidad</a>
+    <a href="#s2-proyeccion">Proyección demanda</a>
+    <a href="#s3-mercado">Estudio de mercado</a>
+    <a href="#s3-segmentacion">Segmentación</a>
+    <a href="#s4-escala">Economías de escala</a>
+    <a href="#s4-tamano">Tamaño óptimo</a>
+    <a href="#s4-localizacion">Localización (5 métodos)</a>
+    <a href="#s4-capitaltrabajo">Capital de trabajo (3 métodos)</a>
+    <a href="#s4-desecho">Valor de desecho</a>
+    <a href="#s4-equilibrio">P. equilibrio / Mermas</a>
+    <a href="#autoeval">Autoevaluación</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="correction">
+    <strong>Nota:</strong> esta guía reemplaza una versión anterior que cubría temas de semanas muy posteriores (WACC, riesgo). Como tu curso solo ha llegado a la Semana 4, aquí está todo reconstruido con las sesiones y los Excel de práctica realmente usados en clase. La <a href="#semana1">Semana 1 (ideas de proyecto)</a> ya la tienes en tu guía anterior "De la Idea al Proyecto" — no se repite aquí.
+  </div>
+
+  <!-- SEMANA 2 -->
+  <div class="day-banner">
+    <div><h2>Semana 2 · Demanda y oferta</h2><p>Elasticidad de la demanda, la ecuación de utilidad del evaluador, y las dos técnicas de proyección que usa el curso: regresión y promedio móvil con estacionalidad.</p></div>
+  </div>
+
+  <section class="block" id="s2-elasticidad">
+    <div class="section-head"><span class="section-num">2.1</span><h2>Elasticidad y ecuación de utilidad</h2></div>
+    <div class="formula">
+Ep = (ΔQ/Q) ÷ (ΔP/P) = (ΔQ/ΔP) × (P/Q)
+    </div>
+    <p>Es <strong>negativa</strong> porque precio y cantidad se mueven en direcciones contrarias. Si |Ep| &gt; 1, demanda <strong>elástica</strong>; si |Ep| &lt; 1, <strong>inelástica</strong>.</p>
+    <div class="formula">
+Ingreso: I = P × Q<br>
+Utilidad: U = I − C<br>
+Utilidad máxima: se deriva U respecto a P (o Q) e iguala a 0
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ejemplo resuelto</th><th>Valor</th></tr></thead>
+        <tbody>
+          <tr><td>Precio (P)</td><td class="num">105</td></tr>
+          <tr><td>Demanda (Q)</td><td class="num">55,000</td></tr>
+          <tr><td>Ingreso (I = P×Q)</td><td class="num">5,775,000</td></tr>
+          <tr><td>Costo (C)</td><td class="num">4,250,000</td></tr>
+          <tr><td>Utilidad máxima</td><td class="num">1,525,000</td></tr>
+          <tr class="total"><td>Elasticidad (E)</td><td class="num">−1.909 → demanda elástica</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="examtip"><span><strong>Ojo con el examen:</strong> el ejercicio típico da una función de demanda Q(P) y una función de costo, y pide el precio que maximiza la utilidad y la elasticidad en ese punto. Cuando |E|&gt;1 (elástica), bajar el precio suele aumentar el ingreso total; cuando |E|&lt;1 (inelástica), subir el precio lo aumenta.</span></div>
+  </section>
+
+  <section class="block" id="s2-proyeccion">
+    <div class="section-head"><span class="section-num">2.2</span><h2>Proyección de la demanda</h2></div>
+    <h3><span class="num">→</span>Regresión y correlación</h3>
+    <p>Se ajusta una recta (u otra función) a los datos históricos de demanda. El <strong>R² (coeficiente de determinación)</strong> mide qué tan bien el modelo explica la variabilidad de los datos; el <strong>p-value</strong> es la probabilidad de que el resultado se deba al azar (cuanto más bajo, más confiable la relación).</p>
+    <h3><span class="num">→</span>Promedio móvil con índice de estacionalidad</h3>
+    <p>Se usa cuando la demanda tiene un patrón que se repite cada cierto número de períodos (ej. trimestres). Pasos:</p>
+    <ol>
+      <li>Calcular el <strong>Promedio Móvil (PM)</strong> centrado, usando una ventana igual a la longitud del ciclo (ej. 4 trimestres).</li>
+      <li>Calcular el <strong>Promedio Móvil Corregido (PMC)</strong>: promedio de dos PM consecutivos, para centrarlo correctamente en el tiempo.</li>
+      <li><strong>Índice de Estacionalidad (IE)</strong> = Demanda real del período ÷ PMC de ese período.</li>
+      <li>Promediar los IE de cada trimestre a través de todos los años → <strong>índice estacional promedio por trimestre</strong>.</li>
+      <li>Ajustar esos índices para que sumen exactamente el número de períodos del ciclo (ej. 4), repartiendo la diferencia proporcionalmente.</li>
+      <li>Proyectar la demanda total del año siguiente (por tendencia) y luego <strong>desagregarla por trimestre</strong> multiplicando por el índice estacional ajustado de cada uno.</li>
+    </ol>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Período</th><th>Demanda</th><th>PM</th><th>PMC</th><th>IE</th></tr></thead>
+        <tbody>
+          <tr><td>Año1-T1</td><td class="num">45</td><td></td><td></td><td></td></tr>
+          <tr><td>Año1-T2</td><td class="num">335</td><td></td><td></td><td></td></tr>
+          <tr><td>Año1-T3</td><td class="num">520</td><td class="num">250.0</td><td class="num">253.1</td><td class="num">2.054</td></tr>
+          <tr><td>Año1-T4</td><td class="num">100</td><td class="num">256.3</td><td class="num">260.6</td><td class="num">0.384</td></tr>
+          <tr><td>Año2-T1</td><td class="num">70</td><td class="num">265.0</td><td class="num">273.8</td><td class="num">0.256</td></tr>
+          <tr><td>Año2-T2</td><td class="num">370</td><td class="num">282.5</td><td class="num">291.3</td><td class="num">1.270</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="examtip"><span><strong>Ojo con el examen:</strong> al final, los 4 índices estacionales promedio deben sumar exactamente 4 (uno por trimestre) — si no suman 4, se reparte la diferencia proporcionalmente entre los cuatro antes de proyectar el año siguiente.</span></div>
+  </section>
+
+  <!-- SEMANA 3 -->
+  <div class="day-banner">
+    <div><h2>Semana 3 · Estudio de mercado</h2><p>Cómo se estructura el análisis de mercado y cómo se filtra la población total hasta llegar al mercado objetivo real del proyecto.</p></div>
+  </div>
+
+  <section class="block" id="s3-mercado">
+    <div class="section-head"><span class="section-num">3.1</span><h2>Estructura del estudio de mercado</h2></div>
+    <p>El estudio de mercado reconoce <strong>cuatro variables</strong>: análisis de la <strong>oferta</strong>, la <strong>demanda</strong>, los <strong>precios</strong> y la <strong>comercialización</strong> — que convergen en las conclusiones del análisis de mercado. Es el <strong>punto de partida</strong> de la evaluación de proyectos: detecta situaciones que condicionan a los demás estudios (técnico, legal, financiero).</p>
+    <div class="flow">
+      <span class="step">Productor</span><span class="arrow">→</span>
+      <span class="step">Proveedor / Competidor</span><span class="arrow">→</span>
+      <span class="step">Distribuidor</span><span class="arrow">→</span>
+      <span class="step">Consumidor</span>
+    </div>
+    <p><strong>Mercado proveedor vs. consumidor:</strong> el proveedor puede ser tan o más crítico que el consumidor — muchos proyectos dependen de la calidad, cantidad, oportunidad y costo de sus materiales (caso clásico: una planta de Pectinas depende de residuos de una planta de Aceites Esenciales, y el riesgo real está en el mercado proveedor, no en el consumidor).</p>
+    <h3><span class="num">→</span>Tres etapas cronológicas del análisis</h3>
+    <ul>
+      <li><strong>Histórico:</strong> reúne series estadísticas (demanda, oferta, precios) y lecciones de fracasos pasados.</li>
+      <li><strong>Vigente:</strong> base de cualquier predicción, pero de importancia relativa <strong>baja</strong> porque el mercado cambia mientras se implementa el proyecto.</li>
+      <li><strong>Proyectada:</strong> la más importante — diferencia la situación futura <strong>sin</strong> proyecto de la situación <strong>con</strong> proyecto.</li>
+    </ul>
+  </section>
+
+  <section class="block" id="s3-segmentacion">
+    <div class="section-head"><span class="section-num">3.2</span><h2>Segmentación de mercado</h2></div>
+    <div class="grid">
+      <div class="card"><h4>Geográfica</h4><p>Nación, región, hábitat, clima, urbano/rural.</p></div>
+      <div class="card"><h4>Demográfica</h4><p>Género, edad, estado civil, tamaño de hogar, ciclo de vida familiar, ocupación, escolaridad.</p></div>
+      <div class="card"><h4>Socioeconómica</h4><p>Nivel de ingresos, educación, ocupación, tenencia de bienes.</p></div>
+      <div class="card"><h4>Psicográfica <em style="font-style:normal;color:var(--muted)">(subjetiva)</em></h4><p>Personalidad, estilos de vida, percepciones, hábitos, beneficios buscados.</p></div>
+    </div>
+    <h3><span class="num">→</span>La cascada del mercado objetivo</h3>
+    <p>Para llegar del universo de población al mercado que realmente atenderá el proyecto, se aplican filtros sucesivos — cada mercado es un subconjunto del anterior:</p>
+    <div class="flow">
+      <span class="step">Población total</span><span class="arrow">→</span>
+      <span class="step">Mercado Potencial (Mp)</span><span class="arrow">→</span>
+      <span class="step">Mercado Disponible (Md)</span><span class="arrow">→</span>
+      <span class="step">Mercado Efectivo (Me)</span><span class="arrow">→</span>
+      <span class="step">Mercado Objetivo (Mo)</span>
+    </div>
+    <p>Cada paso multiplica por un porcentaje de filtro (ej. % que tiene la necesidad o el deseo, % que puede pagarlo, % que efectivamente decide comprar, % que la empresa decide atender). Ejemplo numérico de un caso de clase: Población 306,318 → tras filtros sucesivos → Mp = 75,048 → Md = 49,329 → Me = 20,718 → Mo = 4,144 habitantes.</p>
+    <div class="examtip"><span><strong>Ojo con el examen:</strong> el punto clave es que <strong>cada mercado es más chico que el anterior</strong> (es un embudo), y el Mercado Objetivo (Mo) es la base real para proyectar la demanda del proyecto — no la población total ni el mercado potencial.</span></div>
+  </section>
+
+  <!-- SEMANA 4 -->
+  <div class="day-banner">
+    <div><h2>Semana 4 · Tamaño y localización</h2><p>El bloque más denso y el más reciente — probablemente el más peso en el examen. Domina los 5 métodos de localización y la lógica de economías de escala.</p></div>
+  </div>
+
+  <section class="block" id="s4-escala">
+    <div class="section-head"><span class="section-num">4.1</span><h2>Economías de escala</h2></div>
+    <p>Tres relaciones entre capacidad (Q) y costos/inversión, cada una con su propio exponente:</p>
+    <div class="formula">
+Costo unitario de operación: Cu·Q^a = φ  →  Cu2/Cu1 = (Q2/Q1)^(−a)&nbsp;&nbsp;(a menor Cu, mayor capacidad)<br>
+Costo de equipo por unidad de capacidad: Ce·Q^b = θ  →  Ce2/Ce1 = (Q2/Q1)^(−b)<br>
+Inversión total del equipo: I/Q^f = σ  →  I2 = I1 × (Q2/Q1)^f&nbsp;&nbsp;(a menor capacidad, menor inversión)
+    </div>
+    <p>El <strong>factor de volumen "f"</strong> depende del tipo de industria: petroquímicas/aceiteras ≈ 0.5, cemento/amoníaco ≈ 0.6, motores eléctricos ≈ 0.7, hilanderías ≈ 1.0 (sin economías de escala).</p>
+    <div class="examtip"><span><strong>Ejemplo resuelto:</strong> ¿en cuánto debe incrementarse la inversión de una planta petroquímica (f=0.5) si se desea <strong>duplicar</strong> la capacidad? I2/I1 = (2/1)^0.5 = 1.4142 → debe incrementarse en <strong>41.4%</strong> (no en 100%, porque hay economías de escala).</span></div>
+    <h3><span class="num">→</span>Modelo de Lange (capacidad óptima)</h3>
+    <p>Busca el costo de operación (C) que minimiza el costo total D = Inversión Io(c) + n×C (versión simple), o con el valor del dinero en el tiempo:</p>
+    <div class="formula">
+D = Io(c) + Σ[t=0 a n-1] C/(1+i)^t = mínimo
+    </div>
+  </section>
+
+  <section class="block" id="s4-tamano">
+    <div class="section-head"><span class="section-num">4.2</span><h2>Tamaño óptimo con demanda creciente</h2></div>
+    <p>Cuando la demanda crece a lo largo del tiempo, comparar el VAN de plantas de distinto tamaño (A: 3,000 ton/año; B: 7,000; C: 12,000 ton/año) frente a la misma demanda proyectada da resultados como estos (VAN al 12%):</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Planta</th><th>Capacidad</th><th>Inversión</th><th>VAN@12%</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td class="num">3,000 ton/año</td><td class="num">1,500,000</td><td class="num">1,033,473</td></tr>
+          <tr class="total"><td>B</td><td class="num">7,000 ton/año</td><td class="num">2,601,813</td><td class="num">2,290,522 ← máximo</td></tr>
+          <tr><td>C</td><td class="num">12,000 ton/año</td><td class="num">3,693,433</td><td class="num">1,789,264</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="examtip"><span><strong>Conclusión clave:</strong> cuando la demanda es creciente, <strong>no existe un tamaño óptimo único</strong> de planta — la planta más grande no siempre gana (aquí gana B, no C) porque construir de más genera capacidad ociosa cara los primeros años. Lo óptimo es una <strong>estrategia de ampliación</strong> definida con anticipación, no una sola decisión de tamaño.</span></div>
+  </section>
+
+  <section class="block" id="s4-localizacion">
+    <div class="section-head"><span class="section-num">4.3</span><h2>Los 5 métodos de localización</h2></div>
+
+    <h3><span class="num">1</span>Centro de Gravedad</h3>
+    <p>Encuentra la localización óptima usando solo coordenadas y volumen de cada punto (sin considerar tarifas de transporte reales — es su debilidad).</p>
+    <div class="formula">
+Cx = Σ(xi × Volumeni) / ΣVolumeni<br>
+Cy = Σ(yi × Volumeni) / ΣVolumeni
+    </div>
+    <p><em>Ejemplo:</em> 5 tiendas con distintos volúmenes de compra mensual y coordenadas (x,y) → Centro de Gravedad en (22.31, 32.91).</p>
+
+    <h3><span class="num">2</span>Minimización de costos totales (Solver)</h3>
+    <p>Parte del Centro de Gravedad y usa optimización (Solver de Excel) para mover las coordenadas y minimizar el <strong>costo total de transporte</strong> (tarifa × cantidad × distancia) entre fuentes y mercados — más preciso que el Centro de Gravedad simple. En el ejemplo de clase, el costo bajó de 4,379.83 (en el CG) a 4,097.29 (optimizado), un ahorro del 6%.</p>
+
+    <h3><span class="num">3</span>Localización por costo medio</h3>
+    <p>Cuando varios predios/proveedores ofrecen el mismo insumo a distinta distancia, se calcula el <strong>costo marginal</strong> (costo total de cada predio ÷ su producción) y el <strong>costo medio acumulado</strong> a medida que se van sumando predios en orden de costo creciente — el precio que debe ofrecerse es el que satisface al productor marginal más caro que se necesita.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Predio</th><th>Distancia</th><th>Producción</th><th>Costo marginal</th><th>Costo medio acum.</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td class="num">30 km</td><td class="num">150 ton</td><td class="num">$160/ton</td><td class="num">$160.0</td></tr>
+          <tr><td>B</td><td class="num">40 km</td><td class="num">50 ton</td><td class="num">$180/ton</td><td class="num">$165.0</td></tr>
+          <tr><td>C</td><td class="num">60 km</td><td class="num">100 ton</td><td class="num">$220/ton</td><td class="num">$183.3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3><span class="num">4</span>Cualitativo por puntos (QFR)</h3>
+    <p>Se listan los factores relevantes (recursos humanos, terreno, mercado, agua, accesos, seguridad, construcción, costos…), se les asigna un <strong>peso</strong> (suma 1.00), se califica cada localización alternativa, y se multiplica calificación × peso. Gana el sitio con mayor puntaje total.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Factor</th><th>Peso</th><th>Ica</th><th>Chimbote</th><th>Sullana</th></tr></thead>
+        <tbody>
+          <tr><td>Agua (calidad)</td><td class="num">0.16</td><td class="num">0.32</td><td class="num">0.64</td><td class="num">0.48</td></tr>
+          <tr><td>Costos</td><td class="num">0.20</td><td class="num">0.80</td><td class="num">0.60</td><td class="num">0.20</td></tr>
+          <tr class="total"><td colspan="2">Total (todos los factores)</td><td class="num">2.88 ← gana</td><td class="num">2.56</td><td class="num">1.96</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3><span class="num">5</span>Brown &amp; Gibson (factores objetivos + subjetivos)</h3>
+    <p>Combina factores <strong>cuantificables</strong> (costos) con factores <strong>no cuantificables</strong> (clima, calidad de vida). Cuatro pasos:</p>
+    <ol>
+      <li><strong>FOi</strong> (Factor Objetivo): se calcula el costo total anual Ci de cada localización, y FOi = (1/Ci) ÷ Σ(1/Ci) — la de menor costo obtiene mayor FO.</li>
+      <li><strong>FSi</strong> (Factor Subjetivo): por cada factor subjetivo (clima, vivienda, educación…) se hace una <strong>comparación pareada</strong> entre localizaciones para obtener un índice Rij, y se pondera cada factor subjetivo con un peso Wj (también por comparación pareada) → FSi = ΣRij·Wj.</li>
+      <li><strong>MPL</strong> (Medida de Preferencia de Localización): combina ambos con una ponderación K (ej. si lo objetivo pesa 3 veces más que lo subjetivo, K=0.75): <strong>MPLi = K·FOi + (1−K)·FSi</strong>.</li>
+      <li>Se elige la localización con <strong>mayor MPL</strong>.</li>
+    </ol>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Zona</th><th>FOi</th><th>FSi</th><th>MPL (K=0.75)</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td class="num">0.34195</td><td class="num">0.2500</td><td class="num">0.31895</td></tr>
+          <tr class="total"><td>B</td><td class="num">0.33319</td><td class="num">0.4575</td><td class="num">0.36427 ← gana</td></tr>
+          <tr><td>C</td><td class="num">0.32485</td><td class="num">0.2925</td><td class="num">0.31678</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="examtip"><span><strong>Ojo con el examen:</strong> nota que en este ejemplo la Zona A tenía el <strong>mejor FOi</strong> (menor costo) pero <strong>pierde</strong> frente a B porque el factor subjetivo de B es mucho más fuerte — el método Brown &amp; Gibson existe justamente para casos donde la opción más barata no es la mejor en calidad de vida/entorno.</span></div>
+  </section>
+
+  <section class="block" id="s4-capitaltrabajo">
+    <div class="section-head"><span class="section-num">4.4</span><h2>Inversión en capital de trabajo (3 métodos)</h2></div>
+    <p>La inversión total de un proyecto tiene dos partes: (1) <strong>inversiones previas a la puesta en marcha</strong> (activos fijos + intangibles, ya cubiertos en depreciación/amortización) y (2) <strong>capital de trabajo</strong>: el dinero que financia el ciclo operativo (pagar insumos, sueldos, servicios) mientras el negocio todavía no cobra sus ventas. Sin este monto, un proyecto rentable en el papel puede quebrar por falta de liquidez en los primeros meses. Hay <strong>tres métodos</strong> para estimarlo — son alternativas entre sí, no pasos que se suman.</p>
+    <div class="grid">
+      <div class="card"><h4>① Método contable</h4><p>Capital de trabajo = Activo corriente − Pasivo corriente, con un balance proyectado. Rápido pero estático (una foto, no un flujo en el tiempo); el menos usado en evaluación de proyectos.</p></div>
+      <div class="card"><h4>② Método del período de desfase</h4><p>Aproximación rápida para prefactibilidad. Asume ingresos y egresos constantes durante el año (sin estacionalidad).</p></div>
+      <div class="card"><h4>③ Método del déficit acumulado máximo</h4><p>El más preciso: usa un flujo de caja mensual y capta la estacionalidad real del negocio. Se usa en factibilidad, cuando ya hay flujo mensual detallado.</p></div>
+    </div>
+    <h3><span class="num">→</span>② Período de desfase</h3>
+    <div class="formula">
+ICT = (CAP / 365) × nd<br>
+&nbsp;&nbsp;&nbsp;CAP = costo anual desembolsable (sin depreciación); nd = días entre pagar los costos y cobrar la venta
+    </div>
+    <p>Ejemplo: costos desembolsables anuales US$ 1,200,000 y ciclo de 40 días → ICT = (1,200,000/365) × 40 = <strong>US$ 131,507</strong>.</p>
+    <h3><span class="num">→</span>③ Déficit acumulado máximo</h3>
+    <ol>
+      <li>Proyectar el flujo de caja <strong>mensual</strong> del primer año (ingresos y egresos mes a mes).</li>
+      <li>Saldo neto de cada mes = ingresos − egresos.</li>
+      <li>Saldo <strong>acumulado</strong>, arrastrando el saldo del mes anterior.</li>
+      <li>El capital de trabajo = el mayor déficit (el punto más negativo) del acumulado — no el saldo final ni un promedio.</li>
+    </ol>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Mes</th><th>Ingresos</th><th>Egresos</th><th>Saldo neto</th><th>Saldo acumulado</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td class="num">0</td><td class="num">50,000</td><td class="num">−50,000</td><td class="num">−50,000</td></tr>
+          <tr><td>2</td><td class="num">20,000</td><td class="num">50,000</td><td class="num">−30,000</td><td class="num">−80,000</td></tr>
+          <tr class="total"><td>3</td><td class="num">40,000</td><td class="num">50,000</td><td class="num">−10,000</td><td class="num">−90,000 ← déficit máximo</td></tr>
+          <tr><td>4</td><td class="num">60,000</td><td class="num">50,000</td><td class="num">+10,000</td><td class="num">−80,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="examtip"><span><strong>Ojo con el examen:</strong> el capital de trabajo aquí es <strong>US$ 90,000</strong> (el mes 3, el punto más bajo), no el saldo del mes 4 ni el promedio de la serie. Si el enunciado te da costo anual y días de ciclo → usa período de desfase; si te da flujo mensual detallado → usa déficit acumulado máximo; si te da un balance proyectado → método contable.</span></div>
+  </section>
+
+  <section class="block" id="s4-desecho">
+    <div class="section-head"><span class="section-num">4.5</span><h2>Valor de desecho</h2></div>
+    <p>Es el valor remanente de la inversión al final del horizonte de evaluación del proyecto. Hay <strong>tres métodos</strong> para estimarlo (igual que con capital de trabajo, son alternativas, no se suman):</p>
+    <div class="grid">
+      <div class="card"><h4>① Método contable</h4><p>El valor de desecho es simplemente el valor libro que le queda al activo (costo − depreciación acumulada) — no reconoce que el activo pueda valer distinto en el mercado.</p></div>
+      <div class="card"><h4>② Método comercial</h4><p>El activo se vende (o se estima que se vendería) a su valor de mercado, y se ajusta por el impuesto que genera la diferencia frente al valor libro.</p></div>
+      <div class="card"><h4>③ Método económico</h4><p>No supone que se liquida nada: capitaliza el flujo neto que el negocio seguiría generando después del horizonte, como si fuera un negocio en marcha a perpetuidad.</p></div>
+    </div>
+    <div class="formula">
+Valor libro en el momento t (depreciación lineal): VL(t) = I − (I/n) × t<br>
+&nbsp;&nbsp;&nbsp;I = inversión inicial en el activo; n = vida útil contable (años); t = años transcurridos
+    </div>
+    <h3><span class="num">→</span>② Cálculo del valor de desecho comercial</h3>
+    <ol>
+      <li>Valor Comercial (VM): lo que el mercado pagaría por el activo al final del horizonte de evaluación.</li>
+      <li>Valor Libro (VL) en ese mismo momento, con la fórmula de arriba.</li>
+      <li>Utilidad antes de impuestos = VM − VL</li>
+      <li>Impuesto = tasa × esa utilidad</li>
+      <li>Utilidad neta = Utilidad antes de impuestos − Impuesto</li>
+      <li><strong>Valor de Desecho = Utilidad neta + Valor Libro</strong></li>
+    </ol>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ejemplo resuelto (clase)</th><th>Valor</th></tr></thead>
+        <tbody>
+          <tr><td>Inversión (I)</td><td class="num">US$ 1,000</td></tr>
+          <tr><td>Vida útil contable (n)</td><td class="num">10 años</td></tr>
+          <tr><td>Horizonte de evaluación</td><td class="num">5 años</td></tr>
+          <tr><td>Valor Libro al año 5: 1000 − (1000/10)×5</td><td class="num">US$ 500</td></tr>
+          <tr><td>Valor Comercial al año 5</td><td class="num">US$ 650</td></tr>
+          <tr><td>Utilidad antes de impuestos (650 − 500)</td><td class="num">US$ 150</td></tr>
+          <tr><td>Impuesto (10%)</td><td class="num">US$ 15</td></tr>
+          <tr><td>Utilidad neta</td><td class="num">US$ 135</td></tr>
+          <tr class="total"><td>Valor de Desecho (135 + 500)</td><td class="num">US$ 635</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="examtip"><span><strong>Ojo con el examen:</strong> el Valor de Desecho <strong>no es</strong> simplemente el valor comercial (650) ni simplemente el valor libro (500) — es el valor libro más la utilidad neta que deja la venta del activo por encima (o por debajo) de su valor libro, después de pagar el impuesto correspondiente sobre esa diferencia.</span></div>
+
+    <h3><span class="num">→</span>¿Y si el valor comercial es MENOR al valor libro? (pérdida)</h3>
+    <p>Mismo procedimiento — la "utilidad antes de impuestos" simplemente sale negativa, y el "impuesto" se convierte en un <strong>ahorro tributario</strong> (se suma en vez de restar). Con los mismos I=1000, n=10, horizonte=5 años (VL=500) pero Valor Comercial = US$ 400:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ejemplo N°3 (venta bajo valor libro)</th><th>Valor</th></tr></thead>
+        <tbody>
+          <tr><td>Valor Comercial</td><td class="num">US$ 400</td></tr>
+          <tr><td>Valor Libro</td><td class="num">US$ 500</td></tr>
+          <tr><td>Utilidad antes de impuestos (400 − 500)</td><td class="num">−US$ 100</td></tr>
+          <tr><td>Impuesto (10% × −100)</td><td class="num">−US$ 10 (ahorro)</td></tr>
+          <tr><td>Utilidad neta (−100 − (−10))</td><td class="num">−US$ 90</td></tr>
+          <tr class="total"><td>Valor de Desecho (500 + (−90))</td><td class="num">US$ 410</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="formula">
+Atajo que funciona SIEMPRE (ganancia o pérdida):<br>
+&nbsp;&nbsp;&nbsp;<strong>Valor de Desecho = Valor Comercial − Impuesto</strong>, donde Impuesto = tasa × (Valor Comercial − Valor Libro)<br>
+&nbsp;&nbsp;&nbsp;Ejemplo 2: 650 − 0.10×(650−500) = 650−15 = 635 ✓ &nbsp;|&nbsp; Ejemplo 3: 400 − 0.10×(400−500) = 400−(−10) = 410 ✓
+    </div>
+    <div class="examtip"><span><strong>Truco para no confundirte:</strong> no memorices "sumar" o "restar" el impuesto — calcula siempre Impuesto = tasa × (VM − VL) con su signo, y luego <strong>VD = VM − Impuesto</strong>. El signo se acomoda solo: si hay ganancia, pagas impuesto (VD baja); si hay pérdida, te ahorras impuesto (VD sube por encima del valor comercial de venta).</span></div>
+    <h3><span class="num">→</span>③ Método económico (perpetuidad)</h3>
+    <p>No vende ningún activo: asume que el negocio sigue funcionando después del horizonte y capitaliza el beneficio neto que seguiría generando cada año, como una renta perpetua.</p>
+    <div class="formula">
+VD económico = [(B − C)ₖ − Depₖ] / i<br>
+&nbsp;&nbsp;&nbsp;(B−C)ₖ = beneficio neto anual (ingresos − egresos) en el último año k del horizonte; Depₖ = depreciación del año k; i = tasa de descuento
+    </div>
+    <p>Ejemplo: (B−C)ₖ = 14,000,000, Depₖ = 5,000,000, i = 10% → VD = (14,000,000 − 5,000,000) / 0.10 = <strong>US$ 90,000,000</strong>.</p>
+    <div class="examtip"><span><strong>Por qué se resta la depreciación:</strong> (B−C) normalmente ya viene de un estado de resultados donde se dedujo la depreciación para el impuesto pero luego se suma de vuelta como no-desembolsable; aquí se resta explícitamente porque la depreciación <em>no es</em> un flujo de caja real, y el método económico busca el flujo de caja puro que se capitaliza a perpetuidad.</span></div>
+
+    <h3><span class="num">→</span>Ejemplo integrador: los 3 métodos sobre el mismo activo</h3>
+    <p>Un caso típico de examen da un cuadro de activos y pide los tres valores de desecho a la vez:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ítem</th><th>Inversión</th><th>Vida útil</th><th>Dep. anual</th><th>Dep. acumulada</th><th>Valor en libros</th></tr></thead>
+        <tbody>
+          <tr><td>Terreno</td><td class="num">10,000</td><td class="num">—</td><td class="num">0</td><td class="num">0</td><td class="num">10,000</td></tr>
+          <tr><td>Construcción</td><td class="num">80,000</td><td class="num">40</td><td class="num">2,000</td><td class="num">20,000</td><td class="num">60,000</td></tr>
+          <tr><td>Maquinaria</td><td class="num">30,000</td><td class="num">15</td><td class="num">2,000</td><td class="num">20,000</td><td class="num">10,000</td></tr>
+          <tr><td>Equipos y muebles</td><td class="num">10,000</td><td class="num">10</td><td class="num">1,000</td><td class="num">10,000</td><td class="num">0</td></tr>
+          <tr class="total"><td>Total</td><td class="num">130,000</td><td></td><td class="num">5,000</td><td class="num">50,000</td><td class="num">80,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>(Cifras ×1,000. Horizonte de evaluación = 10 años, coincide con la vida útil de maquinaria y equipos.)</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>① Contable</th><th>② Comercial</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="7" style="vertical-align:top">Valor de Desecho = Valor en libros total<br><strong>= 80,000</strong></td><td>Venta construcción: 70,000</td></tr>
+          <tr><td>Venta maquinaria: 18,000</td></tr>
+          <tr><td>Venta equipos y muebles: 1,000</td></tr>
+          <tr><td>− Valor en libros: −80,000</td></tr>
+          <tr><td>= Utilidad antes de impuesto: 9,000</td></tr>
+          <tr><td>− Impuesto (15%): −1,350</td></tr>
+          <tr class="total"><td>= Utilidad neta + VL = <strong>87,650</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>③ Económico, con (B−C)ₖ=14,000, Depₖ=5,000, i=10%: VD = (14,000−5,000)/0.10 = <strong>90,000</strong>.</p>
+    <div class="examtip"><span><strong>Ojo con el examen:</strong> los tres métodos dan resultados distintos sobre el <em>mismo</em> activo (80,000 / 87,650 / 90,000) y eso es normal — no hay uno "correcto", el enunciado te dice cuál usar (o te pide los tres, como en este caso). El terreno casi nunca se deprecia ni se vende en estos ejercicios, por eso no aparece en la parte comercial.</span></div>
+  </section>
+
+  <section class="block" id="s4-equilibrio">
+    <div class="section-head"><span class="section-num">4.6</span><h2>Punto de equilibrio financiero y mermas</h2></div>
+    <p>A diferencia del punto de equilibrio contable (que solo cubre costos), el <strong>financiero</strong> exige además recuperar el costo de oportunidad de la inversión (COK) y la reinversión de activos:</p>
+    <div class="formula">
+U = beneficio económico anual que debe generar el proyecto para que VAN = 0, dado:<br>
+p·Q = CF + Cvu·Q + D + i·If + i·j + RI (donde RI = (If − VD)/n)
+    </div>
+    <p>Se puede despejar la <strong>cantidad de equilibrio Q*</strong> a partir de esa igualdad, y con ella calcular la <strong>elasticidad en el punto de equilibrio</strong> (E = (P*/Q*)·(ΔQ/ΔP)) para saber cuán sensible es ese equilibrio a cambios de precio.</p>
+    <h3><span class="num">→</span>Márgenes y descuentos en cadena</h3>
+    <div class="formula">
+Margen sobre el costo: Pv = Cu(1 + h)<br>
+Margen sobre el precio: Pv = Cu / (1 − j)<br>
+Margen real con merma: M_real = (Margen + Merma) / (1 − Merma)<br>
+Descuento total en cadena: D_total = 1 − [(1−D1)(1−D2)...(1−Dn)]
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ejemplo</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td>Margen 32% + merma 6% → margen real</td><td class="num">(0.32+0.06)/(1−0.06) = 42.42%</td></tr>
+          <tr><td>Descuentos 15%, 10%, 5% en cadena</td><td class="num">1−(0.85×0.90×0.95) = 27.3%</td></tr>
+          <tr><td>Precio S/.150 con esos descuentos + flete S/.8</td><td class="num">150×(1−0.273)+8 = S/.117.05</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="examtip"><span><strong>Ojo con el examen:</strong> el descuento total <strong>nunca</strong> es la simple suma de los descuentos individuales (15%+10%+5% ≠ 30%) — cada descuento se aplica sobre lo que queda después del anterior, por eso el resultado (27.3%) es menor que la suma simple.</span></div>
+  </section>
+
+  <!-- AUTOEVALUACIÓN -->
+  <section class="block" id="autoeval">
+    <div class="section-head"><span class="section-num">✓</span><h2>Autoevaluación (Semanas 2-4)</h2></div>
+
+    <details class="card-q"><summary><span><span class="tag-day">S2</span>&nbsp; ¿Cuándo se dice que una demanda es elástica y qué implica para el ingreso al cambiar el precio?</span></summary><div class="answer">Es elástica cuando |Ep| &gt; 1 (la cantidad reacciona más que proporcionalmente al precio). En ese caso, bajar el precio tiende a aumentar el ingreso total, porque el aumento en cantidad vendida compensa con creces la caída de precio.</div></details>
+
+    <details class="card-q"><summary><span><span class="tag-day">S2</span>&nbsp; En la proyección por promedio móvil, ¿por qué se calcula el Promedio Móvil Corregido (PMC) y no se usa el PM directamente?</span></summary><div class="answer">Porque el PM simple queda "desfasado" en el tiempo (no cae exactamente en un período real cuando el ciclo tiene un número par de partes). El PMC promedia dos PM consecutivos para recentrar el valor correctamente sobre el período al que corresponde, antes de calcular el índice de estacionalidad.</div></details>
+
+    <details class="card-q"><summary><span><span class="tag-day">S3</span>&nbsp; ¿Por qué el estudio de mercado se considera el "punto de partida" de la evaluación de proyectos?</span></summary><div class="answer">Porque detecta situaciones que condicionan a los demás estudios (técnico, legal, financiero) — por ejemplo, si el mercado proveedor no puede garantizar insumos, eso restringe directamente las opciones del estudio técnico y financiero.</div></details>
+
+    <details class="card-q"><summary><span><span class="tag-day">S3</span>&nbsp; Ordena la cascada de mercados de mayor a menor, del universo de población al mercado que atenderá el proyecto.</span></summary><div class="answer">Población total → Mercado Potencial (Mp) → Mercado Disponible (Md) → Mercado Efectivo (Me) → Mercado Objetivo (Mo). Cada uno es un subconjunto del anterior, filtrado por un criterio adicional (necesidad, capacidad de pago, decisión de compra, decisión de la empresa de atenderlo).</div></details>
+
+    <details class="card-q"><summary><span><span class="tag-day">S4</span>&nbsp; Si el factor de volumen "f" de una industria es 0.5, ¿cuánto debe subir la inversión para duplicar la capacidad de producción?</span></summary><div class="answer">I2/I1 = (2/1)^0.5 = 1.4142, es decir la inversión debe subir 41.4% (no 100%) — esto refleja las economías de escala: la inversión crece menos que proporcionalmente respecto a la capacidad.</div></details>
+
+    <details class="card-q"><summary><span><span class="tag-day">S4</span>&nbsp; Con demanda creciente, ¿por qué la planta de mayor capacidad (C) no siempre da el mayor VAN frente a una intermedia (B)?</span></summary><div class="answer">Porque construir la planta más grande de entrada implica pagar toda la inversión (y sus costos fijos) desde el año 1, mientras la demanda real todavía es baja — esa capacidad ociosa inicial castiga el VAN. Por eso puede convenir más una planta intermedia que se ajusta mejor a la trayectoria de la demanda, en vez de la de mayor tamaño.</div></details>
+
+    <details class="card-q"><summary><span><span class="tag-day">S4</span>&nbsp; ¿Cuál es la principal debilidad del método del Centro de Gravedad para localización?</span></summary><div class="answer">Ignora el costo real de transporte (tarifas distintas por tramo/ruta) — solo usa coordenadas y volúmenes. Por eso el método de Minimización de Costos Totales (con Solver) lo mejora, optimizando directamente sobre el costo de transporte real entre fuentes y mercados.</div></details>
+
+    <details class="card-q"><summary><span><span class="tag-day">S4</span>&nbsp; En el método Brown &amp; Gibson, ¿qué representan FOi, FSi y MPLi, y cómo se combinan?</span></summary><div class="answer">FOi es el factor objetivo (costo cuantificable, mayor cuando el costo es menor); FSi es el factor subjetivo (calidad de vida, clima, etc., calculado por comparaciones pareadas); MPLi = K·FOi + (1−K)·FSi combina ambos con una ponderación K que refleja cuánto más importante es lo objetivo sobre lo subjetivo. Gana la localización con mayor MPLi.</div></details>
+
+    <details class="card-q"><summary><span><span class="tag-day">S4</span>&nbsp; ¿Por qué un descuento total en cadena de 15%+10%+5% no es igual a 30%?</span></summary><div class="answer">Porque cada descuento se aplica sobre el precio que ya quedó después del descuento anterior, no sobre el precio original. La fórmula correcta es D_total = 1 − [(1−D1)(1−D2)(1−D3)], que en este caso da 27.3%, menor que la suma simple de los tres descuentos.</div></details>
+
+    <details class="card-q"><summary><span><span class="tag-day">S4</span>&nbsp; ¿Por qué el Valor de Desecho no es simplemente el valor comercial del activo al final del horizonte?</span></summary><div class="answer">Porque si el valor comercial (lo que el mercado pagaría) es distinto del valor libro contable, esa diferencia genera una utilidad (o pérdida) gravable con impuesto. El Valor de Desecho correcto es la utilidad neta de esa diferencia (después de impuestos) sumada al valor libro — no el valor comercial "en bruto".</div></details>
+
+    <details class="card-q"><summary><span><span class="tag-day">S4</span>&nbsp; Un activo de $1,000 con vida útil contable de 10 años, ¿cuál es su valor libro a los 5 años?</span></summary><div class="answer">VL(5) = 1000 − (1000/10)×5 = 1000 − 500 = $500. La depreciación lineal resta cada año 1/n del valor de inversión original.</div></details>
+  </section>
+
+  <footer>Guía de estudio · DEP · Semanas 1-4 (2026) · Fuentes: "Sesion 3_DEP_2026_alumnos.pdf" (Tamaño/Localización), FP_Modelo2.pdf (Mercado/Demanda), Excel de práctica PC_2 y PC_3</footer>
+</div>
