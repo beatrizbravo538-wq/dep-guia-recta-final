@@ -403,7 +403,9 @@ Cy = Σ(yi × Volumeni) / ΣVolumeni
 
   <section class="block" id="s4-capitaltrabajo">
     <div class="section-head"><span class="section-num">4.4</span><h2>Inversión en capital de trabajo (3 métodos)</h2></div>
-    <p>La inversión total de un proyecto tiene dos partes: (1) <strong>inversiones previas a la puesta en marcha</strong> (activos fijos + intangibles, ya cubiertos en depreciación/amortización) y (2) <strong>capital de trabajo</strong>: el dinero que financia el ciclo operativo (pagar insumos, sueldos, servicios) mientras el negocio todavía no cobra sus ventas. Sin este monto, un proyecto rentable en el papel puede quebrar por falta de liquidez en los primeros meses. Hay <strong>tres métodos</strong> para estimarlo — son alternativas entre sí, no pasos que se suman.</p>
+    <p>La inversión previa a la puesta en marcha se agrupa en <strong>3 tipos</strong>: activos fijos (tangibles), activos intangibles/diferidos, y capital de trabajo — este último es especial porque no se deprecia ni amortiza (en teoría se recupera íntegro al final del proyecto), y por eso se calcula aparte con los 3 métodos de abajo.</p>
+    <div class="examtip"><span><strong>Ojo con el examen (pregunta real de control):</strong> "¿Todo activo fijo siempre se deprecia?" — <strong>No</strong>: el <strong>terreno</strong> es la excepción clásica, no se deprecia porque no pierde valor por uso (de hecho suele revalorizarse). Y la <strong>amortización</strong> (no la depreciación) es la que aplica a activos <strong>intangibles</strong> (patentes, gastos de organización, estudios previos) — son el mismo concepto contable, pero el nombre cambia según el tipo de activo.</span></div>
+    <p>Para financiar el <strong>capital de trabajo</strong> en sí — el dinero que cubre el ciclo operativo (pagar insumos, sueldos, servicios) mientras el negocio todavía no cobra sus ventas — hay <strong>tres métodos</strong>, alternativos entre sí:</p>
     <div class="grid">
       <div class="card"><h4>① Método contable</h4><p>Capital de trabajo = Activo corriente − Pasivo corriente, con un balance proyectado. Rápido pero estático (una foto, no un flujo en el tiempo); el menos usado en evaluación de proyectos.</p></div>
       <div class="card"><h4>② Método del período de desfase</h4><p>Aproximación rápida para prefactibilidad. Asume ingresos y egresos constantes durante el año (sin estacionalidad).</p></div>
@@ -411,10 +413,11 @@ Cy = Σ(yi × Volumeni) / ΣVolumeni
     </div>
     <h3><span class="num">→</span>② Período de desfase</h3>
     <div class="formula">
-ICT = (CAP / 365) × nd<br>
+ICT = (CAP / 365) × nd&nbsp;&nbsp;&nbsp;(notación equivalente vista en control: ICT = j × C, con j = nd/365)<br>
 &nbsp;&nbsp;&nbsp;CAP = costo anual desembolsable (sin depreciación); nd = días entre pagar los costos y cobrar la venta
     </div>
     <p>Ejemplo: costos desembolsables anuales US$ 1,200,000 y ciclo de 40 días → ICT = (1,200,000/365) × 40 = <strong>US$ 131,507</strong>.</p>
+    <div class="examtip"><span><strong>Variante a tener en cuenta:</strong> un control real de este profesor incluyó la opción "j·C<sub>fijo</sub> + h·C<sub>v</sub>" — una versión que separa costos fijos y variables con <strong>distintos días de desfase</strong> cada uno (j para fijos, h para variables), en vez de un solo nd para el costo total. Si tu profesor la menciona en clase, es la misma lógica de la fórmula de arriba pero aplicada por separado a cada tipo de costo.</span></div>
     <h3><span class="num">→</span>③ Déficit acumulado máximo</h3>
     <ol>
       <li>Proyectar el flujo de caja <strong>mensual</strong> del primer año (ingresos y egresos mes a mes).</li>
